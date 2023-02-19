@@ -1,9 +1,13 @@
 # Estatus
 ## **Universidad de Guadalajara** - Centro Universitario de Ciencias Exactas e Ingenierias
 
-### Este es un proyecto realizado para la materia de Computación Tolerante a Fallas
+### Este es un proyecto realizado para la materia de Computación Tolerante a Fallas - D06
 
 **Alumno:** Benavides Hernandez Isaac Alain
+
+---
+## Introducción
+La era de la web ha sido ha representado una verdadera revolución tecnologica y ha representado un cambio enorme en todas las acciones cotidianas que realizamos. Por la facilidad y disponibilidad que ofrece, muchos sistemas criticos han sido migrados para que puedan funcionar a través de internet, y en estos sistemas criticos no solo es necesario prevenir fallos, se necesita estar monitoreando la aplicación para resolver posibles fallos rapidamente. Esta practica muestra una manera de monitorear una aplicación web y mandar una alerta de manera inmediata.
 
 ---
 ## Contenido
@@ -125,3 +129,7 @@ Para ejecutar el código tendrá que seguir los siguientes pasos:
     ~~~bash
     python main.py
     ~~~
+
+--- 
+## Conclusión
+Para finalizar, el monitorear el estatus de una aplicación es realmente util en aplicaciones criticas que tienen que estar disponibles una gran cantidad del tiempo, ya que si no se maneja una forma de redundancia, el detectar rapidamente un fallo conlleva a que tambien sea arreglado más rapidamente. El código de esta practica creo que es util, pero aún existen muchas oportunidades de mejora, como lo podria ser ofrecer metricas de rendimiento en lugar de solo detectar si funciona o no en un momento dado, sin embargo, este fue un buen punto de partida.
