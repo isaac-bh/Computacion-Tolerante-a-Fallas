@@ -1,0 +1,3 @@
+requests
+bs4
+apache-airflow[celery]==2.5.1
