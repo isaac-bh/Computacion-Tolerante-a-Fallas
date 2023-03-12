@@ -132,7 +132,7 @@ Para ejecutar el código tendrá que seguir los siguientes pasos:
 
 --- 
 ## Conclusión
-Para concluir, Apache Airflow es una herramienta, en mi opinión, más completa que Prefect, y que tal vez en un ambito profesional tengan un diferente publico objetivo, pero para estos ejemplos sencillos que realizamos, puedo decir que Prefect es mucho más facil de utilizar e inicializar, sin embargo, Airflow ofrece más información de las ejecuciones de los programas, ademas de que ofrece esta información en una manera más sencilla utilizando graficas y resumenes rapidos en la vista general de DAGs. Cada herramienta tiene sus ventajas y sus desventajas, y es bueno que conozcamos ambas, de esta manera si lo requerimos, podremos decidir cual de estas herramientas se ajusta más a nuestra situación.
+Para concluir, Apache Airflow es una herramienta, que en mi opinión, es más completa que Prefect y que tal vez en un ambito profesional estas dos pueden tener un diferente publico objetivo, pero para estos ejemplos sencillos que realizamos, puedo decir que Prefect es mucho más facil de utilizar e inicializar, sin embargo, Airflow ofrece más información de las ejecuciones de los programas, ademas de que ofrece esta información en una manera más sencilla utilizando graficas y resumenes rapidos en la vista general de DAGs. Cada herramienta tiene sus ventajas y sus desventajas, y es bueno que conozcamos ambas, de esta manera si lo requerimos, podremos decidir cual de estas herramientas se ajusta más a nuestra situación.
 
 ---
 
