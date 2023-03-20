@@ -21,3 +21,13 @@ services:
     networks:
       - lyrics-network
     container_name: lyrics-db
+
+networks:
+  lyrics-network:
+    external: true
+    name: lyrics-network
+
+volumes:
+  mysql:
+    external: true
+    name: mysql
