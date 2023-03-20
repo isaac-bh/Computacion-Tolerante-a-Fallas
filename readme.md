@@ -12,3 +12,5 @@ Cada practica se encuentra en su respectiva carpeta
 [Practica 5: WorkFlow Managers](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/5.%20Workflow%20Managers)
 
 [Practica 6: Airflow](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/6.%20Airflow)
+
+[Practica 7: Docker](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/7.%20Docker)
