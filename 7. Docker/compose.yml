@@ -1,0 +1,23 @@
+services:
+  api:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    networks:
+      - lyrics-network
+    container_name: lyrics-api
+  db:
+    image: mysql:8
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=cisco123
+    networks:
+      - lyrics-network
+    container_name: lyrics-db
