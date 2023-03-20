@@ -7,7 +7,7 @@
 
 ---
 ## Introducción
-En entornos de desarrollo donde muchos programadores trabajan al mismo tiempo es muy probable que cada integrante del proyecto pase mucho tiempo configurando el proyecto para que este pueda ser ejecutado en su maquina. Existen varios metodos para solucionar esta problematica, sin embargo, la más conocida actualmente son los contenedores. Los contenedores son ambientes que incluyen todas las dependencias y herramientas necesarias para correr una aplicación, estos estan totalmente aislados del resto de la computadora por lo que se podria decir que son ambientes portables para aplicaciones. En la siguiente practica utilizaremos los contenedores para ejecutar un servicio web.
+En entornos de desarrollo donde muchos programadores trabajan al mismo tiempo es muy probable que cada integrante del proyecto pase mucho tiempo configurando el proyecto para que este pueda ser ejecutado en su maquina. Existen varios metodos para solucionar esta problematica, sin embargo, la más conocida actualmente son los contenedores. Los contenedores son ambientes que incluyen todas las dependencias y herramientas necesarias para correr una aplicación, estos estan totalmente aislados del resto de la computadora por lo que se podria decir que son ambientes portables para aplicaciones. En esta practica utilizaremos los contenedores para ejecutar un servicio web.
 
 ---
 ## Contenido
@@ -98,7 +98,7 @@ Para ejecutar el código tendrá que seguir los siguientes pasos:
     mysql -p lyrics < backup.sql
     ~~~
 
-12. Reinicia ambos contenedores
+12. Reiniciar ambos contenedores
 --- 
 
 Si ya tenemos realizado el backup de la BD, podemos eliminar los contenedores y volver a ejecutar ``docker-compose up`` y podremos ver que nuestros datos siguen ahí, gracias a los volumenes de Docker.
@@ -116,4 +116,4 @@ Una vez que verificamos que los contenedores estan en ejecución, podemos dirigi
 
 ---
 ## Conclusión
-Para finalizar, los contenedores son herramientas muy utiles y que seguirán tomando relevancia ya que nos ofrecen una manera de ejecutar cualquier aplicación en cualquier maquina. Personalmente no lograba apreciar la diferencia entre un contendor y una maquina virtual porque ambos son ambientes aislados, pero mientras más investigaba para esta practica más diferencias encontraba, pero la más notoria es el uso de recursos, en Windows, Docker utiliza WSL que es esencialmente una maquina virtual, pero el Docker Engine en Linux es mucho mejor, cada contenedor utiliza solo los recursos que necesita, nunca usan más, por lo que es mucho más ligero que utilizar maquinas virtuales.
+Para finalizar, los contenedores son herramientas muy utiles y que seguirán tomando relevancia ya que nos ofrecen una manera de ejecutar cualquier aplicación en cualquier maquina. Personalmente no lograba diferenciar entre un contendor y una maquina virtual porque ambos son ambientes aislados, pero mientras más investigaba para esta practica más diferencias encontraba, pero la más notoria es el uso de recursos, en Windows, Docker utiliza WSL que es esencialmente una maquina virtual, pero el Docker Engine en Linux es mucho mejor, cada contenedor utiliza solo los recursos que necesita, nunca usan más, por lo que es mucho más ligero que utilizar maquinas virtuales.
