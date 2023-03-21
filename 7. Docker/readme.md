@@ -38,6 +38,56 @@ async def root():
     return response
 ~~~
 
+Para poder ejecutar esta aplicación en un contenedor se necesita definir que necesita como prerequisitos y realizar unas configuraciones, todo esto esta definido en nuestro archivo Dockerfile:
+
+~~~docker
+FROM python:3.9
+WORKDIR /code
+COPY ./requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+COPY ./app /code/app
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+~~~
+
+Podemos construir esta imagen individualmente si tenemos una instancia de MySQL lista, pero como en nuestro caso no es así, aprovecharemos para definir un archivo docker-compose para levantar ambos contenedores al mismo tiempo:
+
+~~~yml
+services:
+  api:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    networks:
+      - lyrics-network
+    container_name: lyrics-api
+  db:
+    image: mysql:8
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=cisco123
+    networks:
+      - lyrics-network
+    container_name: lyrics-db
+
+networks:
+  lyrics-network:
+    external: true
+    name: lyrics-network
+
+volumes:
+  mysql:
+    external: true
+    name: mysql
+~~~
+
+
 ---
 ## Instalación
 Para ejecutar el código tendrá que seguir los siguientes pasos:
