@@ -14,3 +14,5 @@ Cada practica se encuentra en su respectiva carpeta
 [Practica 6: Airflow](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/6.%20Airflow)
 
 [Practica 7: Docker](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/7.%20Docker)
+
+[Practica 7: MicroProfile-Quarkus](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/8.%20Microprofile-Quarkus)
