@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paises</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        main {
+            width: 100vw;
+            height: 100vh;
+            background: url('../static/background.jpg');
+            background-color: rgba(0, 0, 0, 0.85);
+            background-blend-mode: overlay;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contenedor {
+            background-color: #1e2021;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="w-2/3 h-2/5 contenedor align-middle p-4 border rounded-lg flex">
+            <img src="{{country.flag}}" alt="" class="h-full mr-8">
+            <div class="flex flex-col justify-between h-full">
+                <div>
+                    <p class="text-8xl font-bold mb-4">{{country.name}}</p>
+                    <p class="text-md font-semibold"><b class="uppercase">Nombre Oficial:</b> {{country.oficial_name}}</p>
+                    <p class="text-md font-semibold"><b class="uppercase">Continente:</b> {{country.continent}} </p>
+                    <p class="text-md font-semibold"><b class="uppercase">Capital:</b> {{country.capital}} </p>
+                    <p class="text-md font-semibold"><b class="uppercase">Población:</b> {{country.population}} </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-0 right-0">
+            Universidad de Guadalajara - CUCEI
+            <p>Benavides Hernandez Isaac Alain</p>
+        </div>
+    </main>
+</body>
+</html>

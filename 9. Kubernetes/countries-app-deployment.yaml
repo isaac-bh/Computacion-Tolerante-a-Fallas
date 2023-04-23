@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: countries-app-deployment
+  labels:
+    app: countriesapp
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: countriesapp
+  template:
+    metadata:
+      labels:
+        app: countriesapp
+    spec:
+      containers:
+      - name: countriesapp
+        image: isaacbh/countries-app:1.0
+        ports:
+        - containerPort: 5000
