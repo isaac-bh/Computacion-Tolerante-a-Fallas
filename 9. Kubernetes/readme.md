@@ -64,7 +64,7 @@ Ahora, para desplegar el contenedor con Kubernetes, utilizare un servicio de com
 
 2. Los orquestadores son herramientas muy utilizadas en computo en la nube, entonces me parece buena idea ganar algo de experiencia en este ambiente.
 
-Uticilicé los servicios de Linode.
+Utilicé los servicios de Linode.
 ![Linode Kubernetes Dashboard](./img/4.png "Linode Kubernetes Dashboard")
 
 Cuando creamos nuestro cluster, nos ofrecerá varias opciones para nuestros nodos, como somos humildes, elegiremos los nodos más baratos que podamos contratar.
