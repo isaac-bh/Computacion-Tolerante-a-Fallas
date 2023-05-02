@@ -1,4 +1,4 @@
-# Kubernetes
+# Service Mesh - Istio
 ## **Universidad de Guadalajara** - Centro Universitario de Ciencias Exactas e Ingenierias
 
 ### Este es un proyecto realizado para la materia de Computación Tolerante a Fallas - D06
@@ -7,18 +7,12 @@
 
 ---
 ## Introducción
-Los servicios web una vez terminada la fase de desarrollo entran a la fase de despliegue y mantenimiento, se cree que esta etapa en el ciclo de la vida del software es más sencilla que el desarrollo, sin embargo, esto no siempre es así, para facilitar varias tareas como el despliegue y la recuperación ante errores se crearón herramientas que utilicen los contenedores a escala masiva para resolver estas problematicas. En esta practica se utilizará el orquestador de contenedores Kubernetes para desplegar un servicio web de manera sencilla.
+La arquitectura de microservicios es una arquitectura de software muy utilizada en la industria debido a los beneficios que agrega a un servicio grande, el cúal, por sencilleza tanto de desarrollo como de mantenimiento, es mejor dividirlo en pequeñas partes para aislar problemas y posibles modificaciones, de esta manera no es necesario modificar todo el servicio al mismo tiempo, si no que se inhabilita temporalmente solo lo que se requiere. A pesar de que agrega muchas cosas buenas a nuestra aplicación, el administrar estos microservicios, monitorearlos y aplicar configuraciones de seguridad es muy dificil, en especial si se tienen muchas replicas de estos servicios para ofrecer redundancia y disponibilidad. En esta practica utilizaremos una Malla de Servicios (Istio) para agregar más funcionalidades y herramientas a nuestros deploys hechos en Kubernetes.
 
 ---
 ## Preguntas
-### ¿Qué es Kubernetes?
-Kubernetes es una plataforma para administrar servicios basados en contenedores. Esta plataforma facilita la automatización y orquestación de la infraestructura de computo, de redes y el almacenamiento para adaptarse a las cargas de trabajo.
-
-### ¿Qué es Ingress?
-Ingress es un servicio integrado en Kubernetes que se utiliza para exponer servicios HTTP o HTTPS desde el exterior a servicios ubicados en nuestro Cluster. Se utiliza un archivo para definir la configuración. La diferencia de Ingress con un balanceador de carga es que por cada servicio que se ofrezca en un cluster se necesita un balanceador de carga y una IP, por lo que puede suponer un sobrecoste.
-
-### ¿Qué es un LoadBalancer?
-LoadBalancer es un servicio de Kubernetes que provee un balanceador de carga externo al cluster. Este servicio es una API que se sincroniza con el proveedor de servicios de computo en la nube para proveer el balanceador de carga y una IP pública para utilizar.
+### ¿Qué es Istio?
+Istio es una malla de servicios que ofrece herramientas independientes de lenguajes de programación para automatizar las funciones de una red de servicio de una aplicación. Nos ayuda a integrar herramientas para registrar las transferencias de datos, añadir telemetria o incluir politicas de acceso a nuestros servicios en Kubernetes.
 
 ---
 ## Contenido
