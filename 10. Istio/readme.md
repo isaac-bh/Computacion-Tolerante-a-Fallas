@@ -16,8 +16,7 @@ Istio es una malla de servicios que ofrece herramientas independientes de lengua
 
 ---
 ## Contenido
-
-Para esta practica se desarrolló una aplicación web sencilla en Flask donde se obtienen los datos de un país a través de una API pública, se grafican estos datos y se muestran al usuario. El código es el siguiente:
+Para esta practica se utilicé la aplicación desarrollada en la practica pasada (9. Kubernetes) y cree una nueva versión de esta aplicación, esto para probar algunas cosas que ofrece Istio.
 
 ~~~python
 from flask import Flask, render_template, request
@@ -28,6 +27,7 @@ import json
 app = Flask(__name__)
 
 
+# V2 de la aplicacion de paises
 @app.route('/<nombre_pais>')
 def index(nombre_pais):
     url = 'https://restcountries.com/v3.1/name/'
@@ -41,96 +41,108 @@ def index(nombre_pais):
         'continent': data[0]['region'],
         'capital': data[0]['capital'][0],
         'population': data[0]['population'],
-        'flag': data[0]['flags']['png']
+        'flag': data[0]['flags']['png'],
+        'domain': data[0]['tld'][0],
+        'independent': 'Estado soberano' if data[0]['independent'] else "Estado dependiente de otro país",
+        'unMember': 'Miembro de naciones unidas' if data[0]['unMember'] else "No es miembro de naciones unidas",
     }
 
 
     return render_template('main.html', country=country)
 ~~~
+Al igual que en la practica anterior, este contenedor se encuentra publicado en DockerHub para comodidad al momento de desplegarlo en Kubernetes. En esta vez no se hará un deploy en la nube, si no que se utilizará Minikube para desplegarlo localmente.
 
-Se contenerizo esta aplicación para poderla desplegar usando Kubernetes, sin embargo, para hacer mas sencillo el despliegue, se subió la imagen directamente hacia Docker Hub (https://hub.docker.com/r/isaacbh/countries-app).
+---
+## Paso 1. Instalar Istio y configurarlo en nuestro Cluster
+Para poder desplegar facilmente Istio, podemos utilizar su herramienta de consola, simplemente se descarga el archivo desde su página oficial, y una vez tenemos el ejecutable en nuestro PATH, podemos instalar Istio en nuestro cluster con el siguiente comando: 
 
-![Docker build](./img/1.png "Docker build")
+~~~bash
+istioctl install --set profile=demo
+~~~
+![Istioctl en acción](./img/01.png "Istioctl en acción")
 
-Ahora, para desplegar el contenedor con Kubernetes, utilizare un servicio de computo en la nube, por 2 sencillas razones:
+**Nota:** Al instalar istio con el perfil demo no incluirá todas las herramientas que se verán en este reporte, no incluirá Jaeger, Grafana ni el dashboard web Kiali, estos se necesitan instalar usando kubectl utilizando los manifiestos de ejemplo que vienen incluidos en la carpeta de istioctl. Es decisión de cada quien decidir que tanto instalar, tambien dependerá de que tantos recursos tienes disponibles en tu computadora/cluster, debido a que puedes sobrecargar de servicios que tal vez no termines utilizando.
 
-1. Es más sencillo desplegar estos servicios administrados que instalar el software en mi equipo.
+## Paso 2. Habilitar a istio en todos los deploys de nuestro espacio de trabajo.
+Para que nuestros servicios desplegados en Kubernetes puedan utilizar los servicios ofrecidos por Istio, será necesario habilitar la inyección de los contenedores de Istio en cada uno de los pods de nuestro servicio. Esto debido a que Istio funcionará como un proxy, todas las solicitudes que entren a nuestro servicio pasarán primero por Istio y despues, si la configuración lo permite, sera redirigido a nuestra aplicación.
+![Inyección de Istio en los deploys](./img/02.png "Inyección de Istio en los deploys")
 
-2. Los orquestadores son herramientas muy utilizadas en computo en la nube, entonces me parece buena idea ganar algo de experiencia en este ambiente.
-
-Utilicé los servicios de Linode.
-![Linode Kubernetes Dashboard](./img/4.png "Linode Kubernetes Dashboard")
-
-Cuando creamos nuestro cluster, nos ofrecerá varias opciones para nuestros nodos, como somos humildes, elegiremos los nodos más baratos que podamos contratar.
-
-![Linode Kubernetes Nodes Plans](./img/5.png "Linode Kubernetes Nodes Plans")
-
-Una vez confirmada nuestra configuración, nos dara el estatus de nuestros nodos y nos proporcionará un archivo YAML con la configuración para acceder a nuestro nodo maestro de Kubernetes. Descargamos este archivo y lo agregamos al PATH de nuestra computadora, de esta manera kubectl tendrá todo lo necesario para trabajar.
-
-![Configuración de kubectl](./img/6.png "Configuración de kubectl")
-
-Ya que tenemos configurado kubectl para trabajar con nuestro ambiente en la nube, realizaremos nuestro despliegue utilizando un manifiesto que definiremos en un archivo YAML:
+## Paso 3. Crear nuestros deploys, servicios y el gateway de Istio para acceder a los servicios
+Ya que Istio esta listo para funcionar en nuestro Cluster, solo resta desplegar nuestras aplicaciones, cabe aclarar, que los servicios de las aplicaciones fueron creados como ClusterIP, por lo que no son accesibles desde fuera del Cluster, por lo que debemos configurar otro servicio para acceder desde fuera de el, en este caso utilizamos un IngressGateway:
 
 ~~~yaml
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
 metadata:
-  name: countries-app-deployment
-  labels:
-    app: countriesapp
+  name: countries-gateway
 spec:
-  replicas: 4
   selector:
-    matchLabels:
-      app: countriesapp
-  template:
-    metadata:
-      labels:
-        app: countriesapp
-    spec:
-      containers:
-      - name: countriesapp
-        image: isaacbh/countries-app:1.0
-        ports:
-        - containerPort: 5000
+    app: istio-ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
 ~~~
 
-Aplicando la configuración a nuestro cluster utilizando nuestro archivo YAML Kubernetes realizará el trabajo necesario.
-
-![Despliegue con kubectl](./img/8.png "Despliegue con kubectl")
-
-Una vez que se tiene listo nuestro despliegue solo falta una cosa para poder acceder a nuestra aplicación web, definir nuestro balanceador de carga para poder acceder a nuestros pods.
+Y tambien utilizamos un VirtualService para añadir algunas reglas para acceder a nuestra aplicación, este servicio restringe el acceso a la versión 1 de nuestra aplicación a unicamente los clientes que utilicen Chrome, si utilizan Firefox u otro navegador que no este basado en Chromium será redirigido a la aplicación en su versión 2, el manifiesto es el siguiente:
 
 ~~~yaml
-apiVersion: v1
-kind: Service
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: countries-service
-  annotations:
-    service.beta.kubernetes.io/linode-loadbalancer-throttle: "4"
-  labels:
-    app: countries-service
+  name: countries-service-ingress
 spec:
-  type: LoadBalancer
-  ports:
-    - name: http
-      port: 5000
-      targetPort: 5000
-  selector:
-    app: countriesapp
-  sessionAffinity: None
+  hosts: 
+  - '*'
+  gateways:
+  - countries-gateway
+  http:
+  - match:
+    - headers:
+        user-agent:
+          regex: .*Chrome.*
+    route:
+    - destination:
+        host: countries-service-v1
+  - route:
+    - destination:
+        host: countries-service-v2
 ~~~
 
-Aplicaremos la configuración definida en el archivo YAML y Kubernetes se encargará de crear nuestro servicio.
+![Configuración de deploys y servicios](./img/03.png "Configuración de deploys y servicios")
 
-![Creación de Load Balancer](./img/9.png "Creación de Load Balancer")
+Cuando ya tenemos todo desplegado, podemos revisar que los servicios sean accesibles, para esto podemos utilizar el comando ``kubectl get svc -A`` y buscamos el servicio que se llame istio-ingressgateway, podremos ver que tiene configurada una IP externa a la que podremos acceder.
 
-Con esto configurado, ya podremos acceder a nuestra aplicación web a través de la dirección IP que nos muestra el servicio, claro, especificando el puerto 5000 y despues del diagonal el país del que queremos obtener la información.
+![Obteniendo la IP del Gateway](./img/06.png "Obteniendo la IP del Gateway")
 
-http://45.79.60.88:5000/mexico
+Si accedemos desde Mozilla Firefox:
+![Accediendo al servicio desde firefox](./img/04.png "Accediendo al servicio desde firefox")
 
-![Servicio desplegado](./img/10.png "Servicio desplegado")
+Si accedemos desde Chrome:
+![Accediendo al servicio desde chrome](./img/05.png "Accediendo al servicio desde chrome")
+
+## Paso 4. Iniciar el dashboard kiali
+Desde una terminal ejecutamos el siguiente comando para iniciar el dashboard web:
+
+~~~bash
+istioctl dashboard kiali
+~~~
+
+Podremos ver mucha información acerca de las aplicaciones en nuestro cluster, grafos, salud, etc. Para poder visualizar mejor la transferencia de datos entre servicios, simule un intercambio ejecutando el siguiente comando en un contenedor del servicio v1:
+
+~~~bash
+while true; do curl http://countries-service-v2:5000/mexico > /dev/null 2>&1; done
+~~~
+
+![Grafo de servicios](./img/09.png "Grafo de servicios")
+
+Podemos ver mucha información acerca de los servicios y la transferencia de datos entre ellos, por ejemplo, por varios segundos simule una solicitud correcta y por otros cuantos segundos una solicitud invalida, por lo que se observa que indica que la salud esta degradada. Si abrimos la pestaña de aplicaciones y seleccionamos nuestra aplicación, podremos ver graficos acerca de las metricas y estados de salud de la aplicación.
+
+![Metricas de la aplicación](./img/10.png "Metricas de la aplicación")
 
 ---
 ## Conclusión
-Para finalizar, Kubernetes nos permite tener desplegar, mantener y actualizar el servicio utilizando solo 1 comando, por lo que es, a mi opinion, la herramienta más util existente para el despliegue de las aplicaciones: la capacidad de desplegar una cantidad enorme de replicas de nuestro servicio con un solo comando lo hace imprescindible para equipos de IT, además de que este no es el unico beneficio que nos ofrece, la capacidad de recuperación ante fallos, distribución de carga entre pods, etc. 
+Para concluir, los servicios desplegados en Kubernetes son increiblemente resilientes a fallos por el simple hecho de estar desplegados en esta plataforma, debido a el posible escalamiento y replicas configuradas, sin embargo, podemos añadir aún más funciones y servicios a estos, como lo hace Istio, la capacidad de añadir un logger, estadisticas, reglas de seguridad y algunas practicas de tolerancia a fallos como las que vimos en la practica de Quarkus hacen a Istio una herramienta muy util y sencilla de acoplar con aplicaciones ya existentes, debido a que no necesitas cambiar nada en código, si no que se inyectan los servicios utilizando contenedores como intermediarios entre el cliente y nuestra aplicación.
