@@ -1,0 +1,1 @@
+while true; do curl http://countries-service-v2:5000/mexico > /dev/null 2>&1; done

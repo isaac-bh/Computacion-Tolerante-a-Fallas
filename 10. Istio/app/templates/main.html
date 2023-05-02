@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paises</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        main {
+            width: 100vw;
+            height: 100vh;
+            background: url('{{country.flag}}');
+            background-color: rgba(0, 0, 0, 0.85);
+            background-blend-mode: overlay;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contenedor {
+            background-color: #ffffff;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="w-2/3 h-3/5 contenedor align-middle p-4 border rounded-lg flex flex-wrap">
+            <div class="flex flex-col justify-between m-auto">
+                <div>
+                    <p class="text-8xl font-bold mb-4">{{country.name}}</p>
+                    <p class="text-md font-semibold"><b class="uppercase">Nombre Oficial:</b> {{country.oficial_name}}</p>
+                    <p class="text-md font-semibold"><b class="uppercase">Continente:</b> {{country.continent}} </p>
+                    <p class="text-md font-semibold"><b class="uppercase">Capital:</b> {{country.capital}} </p>
+                    <p class="text-md font-semibold"><b class="uppercase">Población:</b> {{country.population}} </p>
+                    <p class="text-md font-semibold"><b class="uppercase">Dominio:</b> {{country.domain}} </p>
+                    <p class="text-md font-semibold"><b class="uppercase">Estado:</b> {{country.independent}} </p>
+                    <p class="text-md font-semibold"><b class="uppercase"></b> {{country.unMember}} </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-0 right-0 text-white">
+            Universidad de Guadalajara - CUCEI
+            <p>Benavides Hernandez Isaac Alain</p>
+        </div>
+    </main>
+</body>
+</html>
