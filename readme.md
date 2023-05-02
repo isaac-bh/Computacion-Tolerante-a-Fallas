@@ -18,3 +18,6 @@ Cada practica se encuentra en su respectiva carpeta
 [Practica 8: MicroProfile-Quarkus](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/8.%20Microprofile-Quarkus)
 
 [Practica 9: Kubernetes](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/9.%20Kubernetes)
+
+[Practica 10: Istio](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/10.%20Istio)
+
