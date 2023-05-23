@@ -21,3 +21,4 @@ Cada practica se encuentra en su respectiva carpeta
 
 [Practica 10: Istio](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/10.%20Istio)
 
+[Practica 11: Cheeky Monkey](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/11.%20CheekyMonkey)
