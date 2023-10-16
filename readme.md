@@ -5,6 +5,10 @@
 
 Cada practica se encuentra en su respectiva carpeta
 ## Indice:
+[Practica 1: Manejo de errores](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/1.%20Manejo-De-Errores)
+
+[Practica 2: Application-Checkpointing](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/2.%20Application-Checkpointing)
+
 [Practica 3: Estatus](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/3.%20Estatus)
 
 [Practica 4: An Introduction to Scaling Distributed Python Applications](https://github.com/isaac-bh/Computacion-Tolerante-a-Fallas/tree/main/4.%20Introduction%20to%20Scaling%20Distributed%20Python%20Applications)
